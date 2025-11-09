@@ -2,5 +2,5 @@
 
 Demo repo showing GitHub Actions matrix builds and artifact uploads (build-de9e7bd).
 
-Contact: khushiagarwal192004@gmail.com
+Contact: 23f3001513@ds.study.iitm.ac.in
 
