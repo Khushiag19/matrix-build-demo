@@ -1,0 +1,46 @@
+name: Matrix Build with Artifacts - build-de9e7bd
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [14, 16, 18]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: matrix-de9e7bd
+        run: |
+          echo "Running matrix job for node ${{ matrix.node-version }}"
+          echo "This step has identifier matrix-de9e7bd"
+
+      - name: Generate build artifact
+        run: |
+          mkdir -p build
+          echo "Build artifact for node v${{ matrix.node-version }}" > build/output-v${{ matrix.node-version }}.txt
+          echo "Run: $GITHUB_RUN_ID" >> build/output-v${{ matrix.node-version }}.txt
+          echo "Matrix: node=${{ matrix.node-version }}" >> build/output-v${{ matrix.node-version }}.txt
+          ls -l build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-de9e7bd-v${{ matrix.node-version }}
+          path: build/output-v${{ matrix.node-version }}.txt
+          retention-days: 7
